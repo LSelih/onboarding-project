@@ -1,17 +1,51 @@
 import React from "react";
+import styled from "styled-components";
 
-const InputSelect = ({ label, selectName, data }) => {
+const SelectWrapper = styled.div`
+  max-width: 20rem;
+`;
+
+const CustomLabel = styled.label`
+  color: white;
+`;
+
+const CustomSelect = styled.select`
+  appearance: none;
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 1rem 0 0;
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 2rem;
+  font-family: inherit;
+  font-size: inherit;
+`;
+
+const InputSelect = ({
+  label,
+  selectName,
+  data,
+  handleSelectionChange,
+  selectedLanguage,
+}) => {
   return (
-    <>
-      <label htmlFor={selectName}>{label}</label>
-      <select id={selectName} name={selectName}>
+    <SelectWrapper>
+      <CustomLabel htmlFor={selectName}>{label}</CustomLabel>
+      <CustomSelect
+        id={selectName}
+        value={selectedLanguage}
+        onChange={(e) => handleSelectionChange(e)}
+      >
         {data.map((lang, index) => (
-          <option key={index} value={lang.code}>
+          <option key={index} value={lang.code} data-name={lang.name}>
             {`${lang.code.toUpperCase()} - ${lang.name}`}
           </option>
         ))}
-      </select>
-    </>
+      </CustomSelect>
+    </SelectWrapper>
   );
 };
 

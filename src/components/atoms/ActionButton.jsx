@@ -1,7 +1,7 @@
 import React from "react";
 
 const ActionButton = ({ btnText = "en", handleClick }) => {
-  return <button onClick={() => handleClick()}>{btnText.toUpperCase()}</button>;
+  return <div onClick={() => handleClick()}>{btnText.toUpperCase()}</div>;
 };
 
 export default ActionButton;

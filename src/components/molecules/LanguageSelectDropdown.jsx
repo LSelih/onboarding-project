@@ -1,20 +1,62 @@
 import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 import languageList from "../../utilities/languageList.json";
 import ActionButton from "../atoms/ActionButton";
+import InputSelect from "../atoms/InputSelect";
 
 const LanguageSelectDropdown = () => {
+  const DropdownContainer = styled.div`
+    width: 24rem;
+    min-height: 20rem;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #0ca69b;
+    border: 1px solid black;
+  `;
+
+  const ActionButtonContainer = styled.div`
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid white;
+    border-radius: 4px;
+    color: white;
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const DropdownMenu = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: col;
+    justify-content: center;
+    padding: 2rem;
+  `;
+
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
   const [selectedMainLanguage, setSelectedMainLanguage] = useState({});
+  const [selectedFallbackLanguage, setSelectedFallbackLanguage] = useState({});
 
   const onClick = () => setIsDropdownShowing(!isDropdownShowing);
   const dropdownRef = useRef(null);
 
-  const handleSelectionChange = (e) => {
+  const handleSelectionChangeMain = (e) => {
     const selected = {
-      name: e.target.name,
+      name: e.target.id,
       code: e.target.value,
     };
+
     setSelectedMainLanguage(selected);
+  };
+
+  const handleSelectionChangeFallback = (e) => {
+    const selected = {
+      name: e.target.id,
+      code: e.target.value,
+    };
+    setSelectedFallbackLanguage(selected);
   };
 
   useEffect(() => {
@@ -34,31 +76,31 @@ const LanguageSelectDropdown = () => {
   }, [isDropdownShowing]);
 
   return (
-    <>
-      <div>
+    <DropdownContainer>
+      <ActionButtonContainer>
         <ActionButton
           btnText={selectedMainLanguage.code}
           handleClick={onClick}
         />
-        {/* <button onClick={onClick}>Button</button> */}
-      </div>
+      </ActionButtonContainer>
       {isDropdownShowing ? (
-        <div ref={dropdownRef}>
-          <label htmlFor="languages">Label</label>
-          <select
-            name="languages"
-            id="languages"
-            onChange={(e) => handleSelectionChange(e)}
-          >
-            {languageList.map((lang, index) => (
-              <option key={index} value={lang.code} name={lang.name}>
-                {`${lang.code.toUpperCase()} - ${lang.name}`}
-              </option>
-            ))}
-          </select>
-        </div>
+        <DropdownMenu ref={dropdownRef}>
+          <InputSelect
+            label={"Select Language"}
+            selectName={selectedMainLanguage.name}
+            data={languageList}
+            handleSelectionChange={handleSelectionChangeMain}
+          />
+          <InputSelect
+            label={"Select Fallback Language"}
+            selectName={"fallback-languages"}
+            data={languageList}
+            handleSe
+            handleSelectionChange={handleSelectionChangeFallback}
+          />
+        </DropdownMenu>
       ) : null}
-    </>
+    </DropdownContainer>
   );
 };
 
