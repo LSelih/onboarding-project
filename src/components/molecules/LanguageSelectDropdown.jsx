@@ -5,6 +5,7 @@ import ActionButton from "../atoms/ActionButton";
 import ActionLink from "../atoms/ActionLink";
 import DropdownButton from "../atoms/DropdownButton";
 import InputSelect from "../atoms/InputSelect";
+import SearchBar from "../atoms/SearchBar";
 
 const LanguageSelectDropdown = () => {
   const DropdownContainer = styled.div`
@@ -49,6 +50,7 @@ const LanguageSelectDropdown = () => {
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
   const [selectedMainLanguage, setSelectedMainLanguage] = useState({});
   const [selectedFallbackLanguage, setSelectedFallbackLanguage] = useState({});
+  const [searchInput, setSearchInput] = useState("");
 
   const onClick = () => setIsDropdownShowing(!isDropdownShowing);
   const dropdownRef = useRef(null);
@@ -86,6 +88,11 @@ const LanguageSelectDropdown = () => {
     setSelectedFallbackLanguage(defaultLanguage);
   };
 
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+  };
+
   useEffect(() => {
     const pageClick = (e) => {
       if (
@@ -112,6 +119,12 @@ const LanguageSelectDropdown = () => {
       </ActionButtonContainer>
       {isDropdownShowing ? (
         <DropdownMenu ref={dropdownRef}>
+          <SearchBar
+            key="aoifduoqeuf"
+            searchInput={searchInput}
+            handleSearchChange={handleSearchChange}
+          />
+
           <InputSelect
             label={"Select Language"}
             selectName={selectedMainLanguage.name}
@@ -126,6 +139,7 @@ const LanguageSelectDropdown = () => {
             handleSelectionChange={handleSelectionChangeFallback}
             selectedLanguage={selectedFallbackLanguage.code}
           />
+
           <ButtonContainer>
             <ActionButton
               type="button"
