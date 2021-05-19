@@ -12,9 +12,9 @@ const CustomLabel = styled.label`
 const CustomSelect = styled.select`
   appearance: none;
   background-color: white;
-  border: none;
+  border: 1px solid #666666;
   border-radius: 4px;
-  padding: 0 1rem 0 0;
+  padding: 0 1rem 0 1rem;
   margin: 0;
   margin-top: 10px;
   margin-bottom: 10px;

@@ -2,37 +2,48 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import languageList from "../../utilities/languageList.json";
 import ActionButton from "../atoms/ActionButton";
+import ActionLink from "../atoms/ActionLink";
+import DropdownButton from "../atoms/DropdownButton";
 import InputSelect from "../atoms/InputSelect";
 
 const LanguageSelectDropdown = () => {
   const DropdownContainer = styled.div`
-    width: 24rem;
-    min-height: 20rem;
+    width: 20rem;
+    min-height: 3rem;
     border-radius: 8px;
     padding: 1rem;
-    background: #0ca69b;
-    border: 1px solid black;
+    background: #ffffff;
+    border: 1px solid #555555;
   `;
 
   const ActionButtonContainer = styled.div`
-    position: relative;
     width: 3rem;
     height: 3rem;
     border: 1px solid white;
     border-radius: 4px;
+    background: #333333;
     color: white;
     float: right;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    &:hover {
+      background: #ffffff;
+      color: #888888;
+      border: 1px solid #888888;
+    }
   `;
 
   const DropdownMenu = styled.div`
+    padding: 0;
+  `;
+
+  const ButtonContainer = styled.div`
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: col;
-    justify-content: center;
-    padding: 2rem;
+    flex-direction: row-reverse;
+    justify-content: space-between;
   `;
 
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
@@ -41,6 +52,11 @@ const LanguageSelectDropdown = () => {
 
   const onClick = () => setIsDropdownShowing(!isDropdownShowing);
   const dropdownRef = useRef(null);
+
+  const defaultLanguage = {
+    code: "en",
+    name: "English",
+  };
 
   const handleSelectionChangeMain = (e) => {
     const languageWithCode = languageList.filter((lang) => {
@@ -59,6 +75,15 @@ const LanguageSelectDropdown = () => {
       }
     });
     setSelectedFallbackLanguage(languageWithCode[0]);
+  };
+
+  const handleSearch = () => {
+    console.log("SEARCH");
+  };
+
+  const handleReset = () => {
+    setSelectedMainLanguage(defaultLanguage);
+    setSelectedFallbackLanguage(defaultLanguage);
   };
 
   useEffect(() => {
@@ -80,7 +105,7 @@ const LanguageSelectDropdown = () => {
   return (
     <DropdownContainer>
       <ActionButtonContainer>
-        <ActionButton
+        <DropdownButton
           btnText={selectedMainLanguage.code}
           handleClick={onClick}
         />
@@ -101,6 +126,14 @@ const LanguageSelectDropdown = () => {
             handleSelectionChange={handleSelectionChangeFallback}
             selectedLanguage={selectedFallbackLanguage.code}
           />
+          <ButtonContainer>
+            <ActionButton
+              type="button"
+              btnText="Search"
+              handleClick={handleSearch}
+            />
+            <ActionLink linkText="Reset selection" onClick={handleReset} />
+          </ButtonContainer>
         </DropdownMenu>
       ) : null}
     </DropdownContainer>
