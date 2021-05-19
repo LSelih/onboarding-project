@@ -43,20 +43,22 @@ const LanguageSelectDropdown = () => {
   const dropdownRef = useRef(null);
 
   const handleSelectionChangeMain = (e) => {
-    const selected = {
-      name: e.target.id,
-      code: e.target.value,
-    };
+    const languageWithCode = languageList.filter((lang) => {
+      if (lang.code === e.target.value) {
+        return lang;
+      }
+    });
 
-    setSelectedMainLanguage(selected);
+    setSelectedMainLanguage(languageWithCode[0]);
   };
 
   const handleSelectionChangeFallback = (e) => {
-    const selected = {
-      name: e.target.id,
-      code: e.target.value,
-    };
-    setSelectedFallbackLanguage(selected);
+    const languageWithCode = languageList.filter((lang) => {
+      if (lang.code === e.target.value) {
+        return lang;
+      }
+    });
+    setSelectedFallbackLanguage(languageWithCode[0]);
   };
 
   useEffect(() => {
@@ -90,13 +92,14 @@ const LanguageSelectDropdown = () => {
             selectName={selectedMainLanguage.name}
             data={languageList}
             handleSelectionChange={handleSelectionChangeMain}
+            selectedLanguage={selectedMainLanguage.code}
           />
           <InputSelect
             label={"Select Fallback Language"}
-            selectName={"fallback-languages"}
+            selectName={selectedFallbackLanguage.name}
             data={languageList}
-            handleSe
             handleSelectionChange={handleSelectionChangeFallback}
+            selectedLanguage={selectedFallbackLanguage.code}
           />
         </DropdownMenu>
       ) : null}
