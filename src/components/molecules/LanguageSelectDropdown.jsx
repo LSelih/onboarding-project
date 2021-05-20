@@ -52,7 +52,7 @@ const LanguageSelectDropdown = () => {
   const [selectedMainLanguage, setSelectedMainLanguage] = useState({});
   const [selectedFallbackLanguage, setSelectedFallbackLanguage] = useState({});
   const [searchInput, setSearchInput] = useState("");
-  const [languageData, setLangyageData] = useState([]);
+  const [languageData, setLanguageData] = useState([]);
 
   const onClick = () => setIsDropdownShowing(!isDropdownShowing);
   const dropdownRef = useRef(null);
@@ -95,9 +95,11 @@ const LanguageSelectDropdown = () => {
     setSearchInput(e.target.value);
   };
 
-  // Asynchronously load the languageData on page refresh
+  // Asynchronously load the languageData into state
   useEffect(() => {
-    langData.then((res) => setLangyageData(res));
+    langData
+      .then((res) => setLanguageData(res))
+      .catch((err) => console.error(err));
   }, [langData]);
 
   useEffect(() => {
