@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { langData } from "../../utilities/ImportLanguages";
 import languageList from "../../utilities/languageList.json";
 import ActionButton from "../atoms/ActionButton";
 import ActionLink from "../atoms/ActionLink";
@@ -7,50 +8,51 @@ import DropdownButton from "../atoms/DropdownButton";
 import InputSelect from "../atoms/InputSelect";
 import SearchBar from "../atoms/SearchBar";
 
-const LanguageSelectDropdown = () => {
-  const DropdownContainer = styled.div`
-    width: 20rem;
-    min-height: 3rem;
-    border-radius: 8px;
-    padding: 1rem;
+const DropdownContainer = styled.div`
+  width: 20rem;
+  min-height: 3rem;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #555555;
+`;
+
+const ActionButtonContainer = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid white;
+  border-radius: 4px;
+  background: #333333;
+  color: white;
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
     background: #ffffff;
-    border: 1px solid #555555;
-  `;
+    color: #888888;
+    border: 1px solid #888888;
+  }
+`;
 
-  const ActionButtonContainer = styled.div`
-    width: 3rem;
-    height: 3rem;
-    border: 1px solid white;
-    border-radius: 4px;
-    background: #333333;
-    color: white;
-    float: right;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    &:hover {
-      background: #ffffff;
-      color: #888888;
-      border: 1px solid #888888;
-    }
-  `;
+const DropdownMenu = styled.div`
+  padding: 0;
+`;
 
-  const DropdownMenu = styled.div`
-    padding: 0;
-  `;
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+`;
 
-  const ButtonContainer = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-  `;
-
+const LanguageSelectDropdown = () => {
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
   const [selectedMainLanguage, setSelectedMainLanguage] = useState({});
   const [selectedFallbackLanguage, setSelectedFallbackLanguage] = useState({});
   const [searchInput, setSearchInput] = useState("");
+  const [languageData, setLangyageData] = useState([]);
 
   const onClick = () => setIsDropdownShowing(!isDropdownShowing);
   const dropdownRef = useRef(null);
@@ -89,9 +91,14 @@ const LanguageSelectDropdown = () => {
   };
 
   const handleSearchChange = (e) => {
-    e.preventDefault();
+    console.log(e);
     setSearchInput(e.target.value);
   };
+
+  // Asynchronously load the languageData on page refresh
+  useEffect(() => {
+    langData.then((res) => setLangyageData(res));
+  }, [langData]);
 
   useEffect(() => {
     const pageClick = (e) => {
@@ -120,7 +127,6 @@ const LanguageSelectDropdown = () => {
       {isDropdownShowing ? (
         <DropdownMenu ref={dropdownRef}>
           <SearchBar
-            key="aoifduoqeuf"
             searchInput={searchInput}
             handleSearchChange={handleSearchChange}
           />
@@ -128,14 +134,14 @@ const LanguageSelectDropdown = () => {
           <InputSelect
             label={"Select Language"}
             selectName={selectedMainLanguage.name}
-            data={languageList}
+            data={languageData}
             handleSelectionChange={handleSelectionChangeMain}
             selectedLanguage={selectedMainLanguage.code}
           />
           <InputSelect
             label={"Select Fallback Language"}
             selectName={selectedFallbackLanguage.name}
-            data={languageList}
+            data={languageData}
             handleSelectionChange={handleSelectionChangeFallback}
             selectedLanguage={selectedFallbackLanguage.code}
           />
