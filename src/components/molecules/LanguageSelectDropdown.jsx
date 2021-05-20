@@ -10,10 +10,8 @@ import SearchBar from "../atoms/SearchBar";
 
 const ComponentContainer = styled.div`
   width: 20rem;
-  max-height: 30rem
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -24,6 +22,11 @@ const DropdownContainer = styled.div`
   padding: 1rem;
   background: #ffffff;
   border: 1px solid #555555;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
 `;
 
 const ActionButtonContainer = styled.div`
@@ -54,6 +57,15 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
+`;
+
+const DropdownArrow = styled.div`
+  width: 5px;
+  height: 5px;
+  margin: 0 auto;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid white;
 `;
 
 const LanguageSelectDropdown = () => {
@@ -146,6 +158,7 @@ const LanguageSelectDropdown = () => {
       </ActionButtonContainer>
       {isDropdownShowing ? (
         <DropdownContainer>
+          <DropdownArrow />
           <DropdownMenu ref={dropdownRef}>
             <SearchBar
               searchInput={searchInput}

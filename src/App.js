@@ -1,12 +1,11 @@
 import React from "react";
 import LanguageSelectDropdown from "./components/molecules/LanguageSelectDropdown";
-import Navbar from "./components/organisms/Header/navbar";
+import Navbar from "./components/organisms/Header/Navbar";
 
 const App = ({ title }) => {
   return (
     <div>
       <Navbar />
-      {/* <LanguageSelectDropdown /> */}
     </div>
   );
 };
