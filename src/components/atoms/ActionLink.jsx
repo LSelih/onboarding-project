@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const ActionLink = ({ linkText, onClick }) => {
-  const ActionLinkStyle = styled.p`
-    cursor: pointer;
-  `;
+const ActionLinkStyle = styled.p`
+  cursor: pointer;
+`;
 
+const ActionLink = ({ linkText, onClick }) => {
   return (
     <ActionLinkStyle onClick={() => onClick()}>{linkText}</ActionLinkStyle>
   );

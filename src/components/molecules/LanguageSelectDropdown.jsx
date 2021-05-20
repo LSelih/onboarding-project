@@ -88,12 +88,23 @@ const LanguageSelectDropdown = () => {
   const handleReset = () => {
     setSelectedMainLanguage(defaultLanguage);
     setSelectedFallbackLanguage(defaultLanguage);
+    setIsDropdownShowing(true);
   };
 
   const handleSearchChange = (e) => {
     console.log(e);
     setSearchInput(e.target.value);
   };
+
+  // Filter displayed language options by search input
+  useEffect(() => {
+    const filteredResults = languageData.filter((lang) => {
+      if (lang.name.includes(searchInput)) {
+        return lang;
+      }
+    });
+    setLanguageData(filteredResults);
+  }, [searchInput]);
 
   // Asynchronously load the languageData into state
   useEffect(() => {
