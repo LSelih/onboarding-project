@@ -4,7 +4,7 @@ import LanguageSelectDropdown from "../../molecules/LanguageSelectDropdown";
 
 const StyledNavbar = styled.div`
   width: 90wv;
-  height: 60px;
+  height: 50px;
   padding: 1rem 0rem;
   background: rgb(3, 37, 65);
   display: flex;

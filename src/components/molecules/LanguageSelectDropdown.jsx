@@ -10,6 +10,7 @@ import SearchBar from "../atoms/SearchBar";
 
 const ComponentContainer = styled.div`
   width: 20rem;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +23,7 @@ const DropdownContainer = styled.div`
   padding: 1rem;
   background: #ffffff;
   border: 1px solid #555555;
+  border-top: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,8 +32,8 @@ const DropdownContainer = styled.div`
 `;
 
 const ActionButtonContainer = styled.div`
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
   margin: 0;
   border: 1px solid white;
   border-radius: 4px;
@@ -41,6 +43,7 @@ const ActionButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: 0.2s;
   &:hover {
     background: #ffffff;
     color: #888888;
@@ -60,12 +63,14 @@ const ButtonContainer = styled.div`
 `;
 
 const DropdownArrow = styled.div`
-  width: 5px;
-  height: 5px;
+  width: 0;
+  height: 0;
   margin: 0 auto;
+  margin-top: 5px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-bottom: 10px solid white;
+  z-index: 10;
 `;
 
 const LanguageSelectDropdown = () => {
@@ -157,39 +162,41 @@ const LanguageSelectDropdown = () => {
         />
       </ActionButtonContainer>
       {isDropdownShowing ? (
-        <DropdownContainer>
+        <>
           <DropdownArrow />
-          <DropdownMenu ref={dropdownRef}>
-            <SearchBar
-              searchInput={searchInput}
-              handleSearchChange={handleSearchChange}
-            />
-
-            <InputSelect
-              label={"Select Language"}
-              selectName={selectedMainLanguage.name}
-              data={results}
-              handleSelectionChange={handleSelectionChangeMain}
-              selectedLanguage={selectedMainLanguage.code}
-            />
-            <InputSelect
-              label={"Select Fallback Language"}
-              selectName={selectedFallbackLanguage.name}
-              data={results}
-              handleSelectionChange={handleSelectionChangeFallback}
-              selectedLanguage={selectedFallbackLanguage.code}
-            />
-
-            <ButtonContainer>
-              <ActionButton
-                type="button"
-                btnText="Search"
-                handleClick={handleSearch}
+          <DropdownContainer>
+            <DropdownMenu ref={dropdownRef}>
+              <SearchBar
+                searchInput={searchInput}
+                handleSearchChange={handleSearchChange}
               />
-              <ActionLink linkText="Reset selection" onClick={handleReset} />
-            </ButtonContainer>
-          </DropdownMenu>
-        </DropdownContainer>
+
+              <InputSelect
+                label={"Select Language"}
+                selectName={selectedMainLanguage.name}
+                data={results}
+                handleSelectionChange={handleSelectionChangeMain}
+                selectedLanguage={selectedMainLanguage.code}
+              />
+              <InputSelect
+                label={"Select Fallback Language"}
+                selectName={selectedFallbackLanguage.name}
+                data={results}
+                handleSelectionChange={handleSelectionChangeFallback}
+                selectedLanguage={selectedFallbackLanguage.code}
+              />
+
+              <ButtonContainer>
+                <ActionButton
+                  type="button"
+                  btnText="Search"
+                  handleClick={handleSearch}
+                />
+                <ActionLink linkText="Reset selection" onClick={handleReset} />
+              </ButtonContainer>
+            </DropdownMenu>
+          </DropdownContainer>
+        </>
       ) : null}
     </ComponentContainer>
   );
