@@ -92,19 +92,15 @@ const LanguageSelectDropdown = () => {
   };
 
   const handleSearchChange = (e) => {
-    console.log(e);
     setSearchInput(e.target.value);
   };
 
   // Filter displayed language options by search input
-  useEffect(() => {
-    const filteredResults = languageData.filter((lang) => {
-      if (lang.name.includes(searchInput)) {
-        return lang;
-      }
-    });
-    setLanguageData(filteredResults);
-  }, [searchInput]);
+  const results = !searchInput
+    ? languageData
+    : languageData.filter((lang) =>
+        lang.name.toLowerCase().includes(searchInput.toLowerCase())
+      );
 
   // Asynchronously load the languageData into state
   useEffect(() => {
@@ -147,14 +143,14 @@ const LanguageSelectDropdown = () => {
           <InputSelect
             label={"Select Language"}
             selectName={selectedMainLanguage.name}
-            data={languageData}
+            data={results}
             handleSelectionChange={handleSelectionChangeMain}
             selectedLanguage={selectedMainLanguage.code}
           />
           <InputSelect
             label={"Select Fallback Language"}
             selectName={selectedFallbackLanguage.name}
-            data={languageData}
+            data={results}
             handleSelectionChange={handleSelectionChangeFallback}
             selectedLanguage={selectedFallbackLanguage.code}
           />
