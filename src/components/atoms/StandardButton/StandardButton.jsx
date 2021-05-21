@@ -19,7 +19,7 @@ const SearchButton = styled.div`
   }
 `;
 
-const ActionButton = ({ btnText = "", handleClick }) => {
+const StandardButton = ({ btnText = "", handleClick }) => {
   return (
     <SearchButton onClick={() => handleClick()}>
       {btnText.toUpperCase()}
@@ -27,4 +27,4 @@ const ActionButton = ({ btnText = "", handleClick }) => {
   );
 };
 
-export default ActionButton;
+export default StandardButton;

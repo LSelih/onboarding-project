@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { langData } from "../../utilities/ImportLanguages";
-import languageList from "../../utilities/languageList.json";
-import ActionButton from "../atoms/ActionButton";
-import ActionLink from "../atoms/ActionLink";
-import DropdownButton from "../atoms/DropdownButton";
-import InputSelect from "../atoms/InputSelect";
-import SearchBar from "../atoms/SearchBar";
+// import languageList from "../../../utilities/languageList.json";
+import StandardButton from "../../atoms/StandardButton/StandardButton";
+import ActionLink from "../../atoms/ActionLink/ActionLink";
+import DropdownButton from "../../atoms/DropdownButton/DropdownButton";
+import InputSelect from "../../atoms/InputSelect/InputSelect";
+import SearchBar from "../../atoms/SearchBar/SearchBar";
 
 const ComponentContainer = styled.div`
   width: 20rem;
@@ -31,7 +30,7 @@ const DropdownContainer = styled.div`
   margin: auto;
 `;
 
-const ActionButtonContainer = styled.div`
+const StandardButtonContainer = styled.div`
   width: 2rem;
   height: 2rem;
   margin: 0;
@@ -73,7 +72,7 @@ const DropdownArrow = styled.div`
   z-index: 10;
 `;
 
-const LanguageSelectDropdown = () => {
+const LanguageSelectDropdown = (props) => {
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
   const [selectedMainLanguage, setSelectedMainLanguage] = useState({});
   const [selectedFallbackLanguage, setSelectedFallbackLanguage] = useState({});
@@ -89,7 +88,7 @@ const LanguageSelectDropdown = () => {
   };
 
   const handleSelectionChangeMain = (e) => {
-    const languageWithCode = languageList.filter((lang) => {
+    const languageWithCode = languageData.filter((lang) => {
       if (lang.code === e.target.value) {
         return lang;
       }
@@ -99,7 +98,7 @@ const LanguageSelectDropdown = () => {
   };
 
   const handleSelectionChangeFallback = (e) => {
-    const languageWithCode = languageList.filter((lang) => {
+    const languageWithCode = languageData.filter((lang) => {
       if (lang.code === e.target.value) {
         return lang;
       }
@@ -128,15 +127,17 @@ const LanguageSelectDropdown = () => {
         lang.name.toLowerCase().includes(searchInput.toLowerCase())
       );
 
-  // Asynchronously load the languageData into state
   useEffect(() => {
-    langData
-      .then((res) => setLanguageData(res))
+    const response = new Promise((resolve) => {
+      resolve(props.listOfLanguages);
+    });
+    response
+      .then((response) => {
+        setLanguageData(response);
+      })
       .catch((err) => console.error(err));
-  }, [langData]);
+  }, []);
 
-  // Handles showing the dropdown menu on button click and hiding it on button click, or
-  // a click anywhere outside the dropdown
   useEffect(() => {
     const pageClick = (e) => {
       if (
@@ -155,16 +156,16 @@ const LanguageSelectDropdown = () => {
 
   return (
     <ComponentContainer>
-      <ActionButtonContainer>
+      <StandardButtonContainer>
         <DropdownButton
           btnText={selectedMainLanguage.code}
           handleClick={onClick}
         />
-      </ActionButtonContainer>
+      </StandardButtonContainer>
       {isDropdownShowing ? (
         <>
           <DropdownArrow />
-          <DropdownContainer>
+          <DropdownContainer data-testid="dropdown">
             <DropdownMenu ref={dropdownRef}>
               <SearchBar
                 searchInput={searchInput}
@@ -187,7 +188,7 @@ const LanguageSelectDropdown = () => {
               />
 
               <ButtonContainer>
-                <ActionButton
+                <StandardButton
                   type="button"
                   btnText="Search"
                   handleClick={handleSearch}

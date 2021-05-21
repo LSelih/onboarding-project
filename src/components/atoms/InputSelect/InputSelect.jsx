@@ -6,7 +6,8 @@ const SelectWrapper = styled.div`
 `;
 
 const CustomLabel = styled.label`
-  color: white;
+  color: #666666;
+  font-size: 0.8rem;
 `;
 
 const CustomSelect = styled.select`
@@ -16,7 +17,7 @@ const CustomSelect = styled.select`
   border-radius: 4px;
   padding: 0 1rem 0 1rem;
   margin: 0;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
   width: 100%;
   height: 2rem;
@@ -38,9 +39,16 @@ const InputSelect = ({
         id={selectName}
         value={selectedLanguage}
         onChange={(e) => handleSelectionChange(e)}
+        data-testid="select"
+        role="select"
       >
         {data.map((lang, index) => (
-          <option key={index} value={lang.code} data-name={lang.name}>
+          <option
+            key={index}
+            value={lang.code}
+            data-name={lang.name}
+            data-testid="select-option"
+          >
             {`${lang.code.toUpperCase()} - ${lang.name}`}
           </option>
         ))}

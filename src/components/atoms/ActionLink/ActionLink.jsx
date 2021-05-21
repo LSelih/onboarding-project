@@ -7,7 +7,9 @@ const ActionLinkStyle = styled.p`
 
 const ActionLink = ({ linkText, onClick }) => {
   return (
-    <ActionLinkStyle onClick={() => onClick()}>{linkText}</ActionLinkStyle>
+    <ActionLinkStyle onClick={() => onClick()} data-testid="reset">
+      {linkText}
+    </ActionLinkStyle>
   );
 };
 

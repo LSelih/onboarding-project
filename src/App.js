@@ -1,6 +1,6 @@
 import React from "react";
-import LanguageSelectDropdown from "./components/molecules/LanguageSelectDropdown";
-import Navbar from "./components/organisms/Header/Navbar";
+import LanguageSelectDropdown from "./components/molecules/LanguageSelectDropdown/LanguageSelectDropdown";
+import Navbar from "./components/organisms/Header/Navbar/Navbar";
 
 const App = ({ title }) => {
   return (
