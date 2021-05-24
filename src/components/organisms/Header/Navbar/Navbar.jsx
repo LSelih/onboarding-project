@@ -17,9 +17,9 @@ const Navbar = () => {
   return (
     <>
       <StyledNavbar>
-        <LanguageSelectDropdown listOfLanguages={languageList} />
-        {/* <LanguageSelectDropdown
-          listOfLanguages={fetch(
+        <LanguageSelectDropdown languageList={languageList} />
+        <LanguageSelectDropdown
+          languageList={fetch(
             "https://api.themoviedb.org/3/configuration/primary_translations?api_key=63d876ab894154767b72f8ee54b90147"
           )
             .then((res) => res.json())
@@ -28,7 +28,7 @@ const Navbar = () => {
                 return { code: lang, name: "" };
               });
             })}
-        /> */}
+        />
       </StyledNavbar>
     </>
   );

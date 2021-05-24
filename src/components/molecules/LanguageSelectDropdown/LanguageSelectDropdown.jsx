@@ -72,12 +72,30 @@ const DropdownArrow = styled.div`
   z-index: 10;
 `;
 
-const LanguageSelectDropdown = (props) => {
+// Custom hook for importing the list of language codes and names
+const useLanguageImport = (data) => {
+  const [languageData, setLanguageData] = useState([]);
+
+  useEffect(() => {
+    const response = new Promise((resolve) => {
+      resolve(data);
+    });
+    response
+      .then((response) => {
+        setLanguageData(response);
+      })
+      .catch((err) => console.error(err));
+  }, [data]);
+
+  return [languageData, setLanguageData];
+};
+
+const LanguageSelectDropdown = ({ languageList }) => {
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
   const [selectedMainLanguage, setSelectedMainLanguage] = useState({});
   const [selectedFallbackLanguage, setSelectedFallbackLanguage] = useState({});
   const [searchInput, setSearchInput] = useState("");
-  const [languageData, setLanguageData] = useState([]);
+  const [languageData, setLanguageData] = useLanguageImport(languageList);
 
   const onClick = () => setIsDropdownShowing(!isDropdownShowing);
   const dropdownRef = useRef(null);
@@ -87,6 +105,7 @@ const LanguageSelectDropdown = (props) => {
     name: "English",
   };
 
+  // Handle selection of main language
   const handleSelectionChangeMain = (e) => {
     const languageWithCode = languageData.filter((lang) => {
       if (lang.code === e.target.value) {
@@ -97,6 +116,7 @@ const LanguageSelectDropdown = (props) => {
     setSelectedMainLanguage(languageWithCode[0]);
   };
 
+  // Handle selection of fallback language
   const handleSelectionChangeFallback = (e) => {
     const languageWithCode = languageData.filter((lang) => {
       if (lang.code === e.target.value) {
@@ -106,16 +126,19 @@ const LanguageSelectDropdown = (props) => {
     setSelectedFallbackLanguage(languageWithCode[0]);
   };
 
+  // Placeholder for search handler
   const handleSearch = () => {
     console.log("SEARCH");
   };
 
+  // Reaset the selects to the default language (English)
   const handleReset = () => {
     setSelectedMainLanguage(defaultLanguage);
     setSelectedFallbackLanguage(defaultLanguage);
     setIsDropdownShowing(true);
   };
 
+  // Update search field input
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
   };
@@ -127,17 +150,9 @@ const LanguageSelectDropdown = (props) => {
         lang.name.toLowerCase().includes(searchInput.toLowerCase())
       );
 
-  useEffect(() => {
-    const response = new Promise((resolve) => {
-      resolve(props.listOfLanguages);
-    });
-    response
-      .then((response) => {
-        setLanguageData(response);
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
+  // Handle opening and closing the dropdown
+  // Open on button click and close on next button click,
+  // or if clicked anywhere outside the dropdown menu
   useEffect(() => {
     const pageClick = (e) => {
       if (
